@@ -1,0 +1,26 @@
+import openai
+from gtts import gTTS
+from io import BytesIO
+
+openai.api_key = "apikey"
+
+def text_to_speech(text):
+    tts = gTTS(text=text, lang='pt-br') 
+    audio = BytesIO()
+    tts.save(audio)
+    audio.seek(0)
+    return audio
+
+def chat(texto):
+    reply= openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": "Suponha que você é um instrutor de Python."},{"role": "user", "content": texto},],
+        temperature=0.7,
+    )
+    return reply['choices'][0]['message']['content']
+
+while True:
+    pergunta = input("O que foi senhor?: ")
+    resposta_chat = chat(pergunta)
+    print("Bot: " + resposta_chat)
+    audio = text_to_speech(resposta_chat)
