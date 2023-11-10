@@ -1,1 +1,5 @@
 openai
+gTTs
+VoskAPI
+os
+io
